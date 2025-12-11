@@ -1,5 +1,8 @@
 using Microsoft.OpenApi;
 using Serilog;
+using TriviaApp.API.Services.Question;
+using TriviaApp.API.Services.Question.Api;
+using TriviaApp.API.Services.Question.Api.OpenTriviaApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +14,12 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog();
 
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
+});
+builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSpaStaticFiles(configuration =>
 {
     configuration.RootPath = "wwwroot/TriviaApp.UI/browser/";
@@ -21,9 +30,30 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "TriviaApp.API", Version = "v1" });
 });
 
+builder.Services.AddTransient<IQuestionService, QuestionService>();
+builder.Services.AddTransient<IQuestionApiService, OpenTriviaApiService>();
+builder.Services.AddHttpClient<IOpenTriviaApiGateway, OpenTriviaApiGateway>();
+
 var app = builder.Build();
 
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseRouting();
+
 app.UseSpaStaticFiles();
+
+#pragma warning disable ASP0014 // Suggest using top level route registrations
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
+#pragma warning restore ASP0014 // Suggest using top level route registrations
+
+app.UseSerilogRequestLogging();
 
 app.UseSpa(spa =>
 {
@@ -33,14 +63,6 @@ app.UseSpa(spa =>
         spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
     }
 });
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-app.UseSerilogRequestLogging();
 
 app.Run();
 

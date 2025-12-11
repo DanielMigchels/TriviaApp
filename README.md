@@ -25,9 +25,13 @@ helm install triviaapp ./charts/triviaapp
 For the datasource, I've chosen Redis as a distributed cache to store correct answers. This keeps the application horizontally scalable for high traffic while maintaining small storage footprint through automatic cache entry expiration.
 
 ## Future Enhancements
+- Work around Open Trivia API rate limit to optimize user experience
+  - Microservice with different public IP's to fool the Trivia rate limiter :)
+  - By caching questions, and using those if the server is unavailable.
+  - Different or multiple question providers
 - JWT-based authentication, with `Microsoft.AspNetCore.Identity` as endpoint protection on the backend, and AuthGuards / HttpInterceptors on the front-end.
 - Postgres Database with `EntityFramework` as ORM.
 - Pipeline for automatic auditting, testing, building & deploying.
 - Add log-sink to ELK stack
-- Background tasks with Hangfire or Quartz
-- Message Queueing with RabbitMQ/Kafka (MassTransit)
+- Background tasks with Hangfire or Quarts
+- Message Queueing with RabbitMQ (MassTransit)
