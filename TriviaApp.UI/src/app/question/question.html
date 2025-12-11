@@ -1,0 +1,86 @@
+<div class="flex flex-col items-center gap-5">
+
+  @if (question === null) {
+  <div class="w-96 h-64 bg-[url('/quizmaster.png')] bg-no-repeat bg-[position:90%_0%] bg-[length:200%_200%]">
+  </div>
+  <div class="text-center text-wrap text-3xl">
+    <p>
+      "{{loadingQuestionMessage}}"
+    </p>
+  </div>
+  <div class="flex w-full justify-center items-center h-16">
+    <app-spinner></app-spinner>
+  </div>
+  }
+
+  @if (question !== null && checkingAnswer === false && requestionResult === null) {
+  <div class="w-96 h-64 bg-[url('/quizmaster.png')] bg-no-repeat bg-[position:5%_100%] bg-[length:200%_200%]">
+  </div>
+  <div class="text-center text-wrap text-3xl">
+    <p>
+      "{{question.question}}"
+    </p>
+  </div>
+  <div class="grid w-full lg:grid-cols-2 gap-3 justify-stretch items-center px-2">
+    @for (answer of question.answers; track $index) {
+    <div (click)="Submit(answer)"
+      class="bg-[#F9E7E7] w-full text-center px-3 py-3 cursor-pointer border shadow-xl text-lg border-[#0c0c0c] transition-all duration-200 hover:scale-105 hover:font-semibold">
+      {{answer}}
+    </div>
+    }
+  </div>
+  }
+
+  @if (question !== null && checkingAnswer === true && requestionResult === null) {
+  <div class="w-96 h-64 bg-[url('/quizmaster.png')] bg-no-repeat bg-[position:90%_0%] bg-[length:200%_200%]">
+  </div>
+  <div class="text-center text-wrap text-3xl">
+    <p>
+      "{{checkingQuestionMessage}}"
+    </p>
+  </div>
+  <div class="flex w-full justify-center items-center h-16">
+    <app-spinner></app-spinner>
+  </div>
+  }
+
+  @if (requestionResult !== null) {
+
+  @if (requestionResult.success && requestionResult.wasAnswerCorrect) {
+  <div class="w-96 h-64 bg-[url('/quizmaster.png')] bg-no-repeat bg-[position:5%_0%] bg-[length:200%_200%]">
+  </div>
+  }
+  @if (requestionResult.success && !requestionResult.wasAnswerCorrect) {
+  <div class="w-96 h-64 bg-[url('/quizmaster.png')] bg-no-repeat bg-[position:90%_100%] bg-[length:200%_200%]">
+  </div>
+  }
+  @if (!requestionResult.success) {
+  <div class="w-96 h-64 bg-[url('/quizmaster.png')] bg-no-repeat bg-[position:90%_100%] bg-[length:200%_200%]">
+  </div>
+  }
+
+  <div class="text-center text-wrap text-3xl">
+    @if (requestionResult.success && requestionResult.wasAnswerCorrect) {
+    <p>
+      "Correct!"
+    </p>
+    }
+    @if (requestionResult.success && !requestionResult.wasAnswerCorrect) {
+    <p>
+      "Incorrect! The correct answer was: '{{ requestionResult.correctAnswer }}'."
+    </p>
+    }
+    @if (!requestionResult.success) {
+    <p>
+      "Seems like the jury doesn't know either. Anway, we carry on!"
+    </p>
+    }
+  </div>
+  <div class="flex w-full justify-center items-center h-16">
+    <div (click)="ResetGame()"
+      class="bg-[#F9E7E7] text-center px-3 py-3 cursor-pointer border shadow-xl text-lg border-[#0c0c0c] transition-all duration-200 hover:scale-105 hover:font-semibold">
+      Next Question
+    </div>
+  </div>
+  }
+</div>

@@ -1,0 +1,15 @@
+<div class="flex flex-col items-center gap-5">
+  <div class="w-96 h-64 bg-[url('/quizmaster.png')] bg-no-repeat bg-[position:5%_0%] bg-[length:200%_200%]">
+  </div>
+  <div class="text-center text-wrap text-3xl">
+    <p>"Answer a few quick Trivia questions, and win... <br /> 
+      <span class="font-bold">{{ prize }}</span>"
+    </p>
+  </div>
+  <div class="flex w-full justify-center items-center h-16">
+    <div (click)="StartGame()"
+      class="bg-[#F9E7E7] text-center px-3 py-3 cursor-pointer border shadow-xl text-lg border-[#0c0c0c] transition-all duration-200 hover:scale-105">
+      Let's do this! 
+    </div>
+  </div>
+</div>

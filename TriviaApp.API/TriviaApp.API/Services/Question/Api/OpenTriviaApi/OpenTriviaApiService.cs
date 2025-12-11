@@ -1,4 +1,5 @@
-﻿using TriviaApp.API.Services.Question.Api.Models;
+﻿using System.Net;
+using TriviaApp.API.Services.Question.Api.Models;
 using TriviaApp.API.Services.Question.Api.OpenTriviaApi.Models;
 using TriviaApp.API.Services.Question.Models;
 
@@ -26,9 +27,9 @@ public class OpenTriviaApiService(ILogger<OpenTriviaApiService> logger, IOpenTri
             return new GetQuestionApiResponseModel()
             {
                 Type = question.Type == "multiple" ? QuestionType.MultipleChoice : question.Type == "boolean" ? QuestionType.TrueFalse : default,
-                Question = question.Question,
-                CorrectAnswer = question.CorrectAnswer,
-                IncorrectAnswers = question.IncorrectAnswers,
+                Question = WebUtility.HtmlDecode(question.Question).Replace('\"', '\''),
+                CorrectAnswer = WebUtility.HtmlDecode(question.CorrectAnswer).Replace('\"', '\''),
+                IncorrectAnswers = question.IncorrectAnswers.Select(x => WebUtility.HtmlDecode(x).Replace('\"', '\'')).ToList(),
                 Difficulty = question.Difficulty,
                 Category = question.Category,
             };

@@ -23,7 +23,9 @@ public class QuestionService(ILogger<QuestionService> logger, IQuestionApiServic
             AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10)
         });
 
-        var shuffledAnswers = question.IncorrectAnswers.Concat(new[] { question.CorrectAnswer }).OrderBy(_ => Guid.NewGuid()).ToList();
+        var shuffledAnswers = question.Type == QuestionType.MultipleChoice ? 
+            question.IncorrectAnswers.Concat(new[] { question.CorrectAnswer }).OrderBy(_ => Guid.NewGuid()).ToList() : 
+            question.IncorrectAnswers.Concat(new[] { question.CorrectAnswer }).Reverse().ToList();
 
         return new GetQuestionResponseModel()
         {
