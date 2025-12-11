@@ -22,3 +22,5 @@ helm install triviaapp ./charts/triviaapp
 
 ## Future Enhancements
 - JWT-based authentication, with `Microsoft.AspNetCore.Identity` as endpoint protection on the backend, and AuthGuards / HttpInterceptors on the front-end.
+- Postgres Database with `EntityFramework` as ORM.
+- CI/CD pipeline (GitHub Action) for automatic auditting, testing, building & deploying.
