@@ -20,7 +20,14 @@ Installs the app on your Kubernetes cluster.
 helm install triviaapp ./charts/triviaapp
 ```
 
+## Architecture
+
+For the datasource, I've chosen Redis as a distributed cache to store correct answers. This keeps the application horizontally scalable for high traffic while maintaining small storage footprint through automatic cache entry expiration.
+
 ## Future Enhancements
 - JWT-based authentication, with `Microsoft.AspNetCore.Identity` as endpoint protection on the backend, and AuthGuards / HttpInterceptors on the front-end.
 - Postgres Database with `EntityFramework` as ORM.
-- CI/CD pipeline (GitHub Action) for automatic auditting, testing, building & deploying.
+- Pipeline for automatic auditting, testing, building & deploying.
+- Add log-sink to ELK stack
+- Background tasks with Hangfire or Quartz
+- Message Queueing with RabbitMQ/Kafka (MassTransit)

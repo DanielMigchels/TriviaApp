@@ -1,0 +1,15 @@
+services:
+  triviaapp:
+    build:
+      context: .
+      dockerfile: TriviaApp.Docker/dockerfile
+    ports:
+      - 8080:8080
+    environment:
+      - Redis__Connection=placeholder
+    networks:
+      - triviaapp_network
+
+networks:
+  triviaapp_network:
+    driver: bridge
