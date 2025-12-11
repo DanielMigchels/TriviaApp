@@ -6,7 +6,7 @@ services:
     ports:
       - 8080:8080
     environment:
-      - Redis__Configuration=localhost:6379
+      - Redis__Configuration=redis:6379
     networks:
       - triviaapp_network
 
