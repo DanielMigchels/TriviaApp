@@ -4,6 +4,6 @@ namespace TriviaApp.API.Services.Question;
 
 public interface IQuestionService
 {
-    Task<GetQuestionResponseModel> GetQuestion();
-    Task<CheckQuestionResponseModel> CheckQuestion(CheckQuestionRequestModel requestModel);
+    Task<GetQuestionResponseModel> GetQuestion(string remoteIpAddress);
+    Task<CheckQuestionResponseModel> CheckQuestion(string remoteIpAddress, CheckQuestionRequestModel requestModel);
 }

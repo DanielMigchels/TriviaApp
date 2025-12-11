@@ -1,11 +1,12 @@
-﻿using TriviaApp.API.Services.Question.Api;
+﻿using Microsoft.Extensions.Caching.Distributed;
+using TriviaApp.API.Services.Question.Api;
 using TriviaApp.API.Services.Question.Models;
 
 namespace TriviaApp.API.Services.Question;
 
-public class QuestionService(ILogger<QuestionService> logger, IQuestionApiService questionApiService) : IQuestionService
+public class QuestionService(ILogger<QuestionService> logger, IQuestionApiService questionApiService, IDistributedCache distributedCache) : IQuestionService
 {
-    public async Task<GetQuestionResponseModel> GetQuestion()
+    public async Task<GetQuestionResponseModel> GetQuestion(string remoteIpAddress)
     {
         var question = await questionApiService.GetQuestion();
 
@@ -15,12 +16,20 @@ public class QuestionService(ILogger<QuestionService> logger, IQuestionApiServic
             return new GetQuestionResponseModel { Success = false };
         }
 
-        var answers = question.IncorrectAnswers.Concat(new[] { question.CorrectAnswer }).OrderBy(_ => Guid.NewGuid()).ToList();
+        logger.LogInformation("Correct answer for question {question} is {answer}", question.Question, question.CorrectAnswer);
+        var questionId = Guid.NewGuid();
+        await distributedCache.SetStringAsync($"{remoteIpAddress}{questionId}", question.CorrectAnswer, new DistributedCacheEntryOptions
+        {
+            AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10)
+        });
+
+        var shuffledAnswers = question.IncorrectAnswers.Concat(new[] { question.CorrectAnswer }).OrderBy(_ => Guid.NewGuid()).ToList();
 
         return new GetQuestionResponseModel()
         {
+            Id = questionId,
             Success = true,
-            Answers = answers,
+            Answers = shuffledAnswers,
             Category = question.Category,
             Difficulty = question.Difficulty,
             Question = question.Question,
@@ -28,13 +37,27 @@ public class QuestionService(ILogger<QuestionService> logger, IQuestionApiServic
         };
     }
 
-    public async Task<CheckQuestionResponseModel> CheckQuestion(CheckQuestionRequestModel requestModel)
+    public async Task<CheckQuestionResponseModel> CheckQuestion(string remoteIpAddress, CheckQuestionRequestModel requestModel)
     {
-        await Task.Delay(1);
+        var cachedAnswer = await distributedCache.GetStringAsync($"{remoteIpAddress}{requestModel.Id}");
+
+        if (cachedAnswer == null)
+        {
+            logger.LogWarning("No cached answer found for question ID {QuestionId} and IP {RemoteIpAddress}", requestModel.Id, remoteIpAddress);
+            return new CheckQuestionResponseModel
+            {
+                Success = false,
+            };
+        }
+
+        await distributedCache.RemoveAsync($"{remoteIpAddress}{requestModel.Id}");
+        logger.LogInformation("Cached answer removed for question ID {QuestionId} and IP {RemoteIpAddress}", requestModel.Id, remoteIpAddress);
 
         return new CheckQuestionResponseModel()
         {
-
+            Success = true,
+            WasAnswerCorrect = string.Equals(cachedAnswer, requestModel.Answer, StringComparison.OrdinalIgnoreCase),
+            CorrectAnswer = cachedAnswer,
         };
     }
 }

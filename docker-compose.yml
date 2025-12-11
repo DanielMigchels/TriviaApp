@@ -6,7 +6,15 @@ services:
     ports:
       - 8080:8080
     environment:
-      - Redis__Connection=placeholder
+      - Redis__Configuration=localhost:6379
+    networks:
+      - triviaapp_network
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
     networks:
       - triviaapp_network
 

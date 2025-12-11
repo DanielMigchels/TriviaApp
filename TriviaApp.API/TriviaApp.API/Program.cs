@@ -30,6 +30,12 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "TriviaApp.API", Version = "v1" });
 });
 
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetSection("Redis").GetValue<string>("Configuration");
+    options.InstanceName = "TriviaApp:";
+});
+
 builder.Services.AddTransient<IQuestionService, QuestionService>();
 builder.Services.AddTransient<IQuestionApiService, OpenTriviaApiService>();
 builder.Services.AddHttpClient<IOpenTriviaApiGateway, OpenTriviaApiGateway>();

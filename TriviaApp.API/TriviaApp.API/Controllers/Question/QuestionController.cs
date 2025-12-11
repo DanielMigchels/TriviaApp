@@ -12,15 +12,15 @@ public class QuestionController(IQuestionService questionService) : TriviaContro
     [ProducesResponseType(typeof(GetQuestionResponseModel), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetQuestion()
     {
-        var result = await questionService.GetQuestion();
+        var result = await questionService.GetQuestion(RemoteIpAddress);
         return Ok(result);
     }
 
     [HttpPost]
     [ProducesResponseType(typeof(CheckQuestionResponseModel), StatusCodes.Status200OK)]
-    public async Task<IActionResult> CheckQuestion()
+    public async Task<IActionResult> CheckQuestion([FromBody] CheckQuestionRequestModel requestModel)
     {
-        var result = await questionService.CheckQuestion(new Services.Question.Models.CheckQuestionRequestModel());
+        var result = await questionService.CheckQuestion(RemoteIpAddress, requestModel);
         return Ok(result);
     }
 }
