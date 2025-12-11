@@ -1,0 +1,4 @@
+namespace: triviaapp
+
+redis:
+  configuration: redis:6379

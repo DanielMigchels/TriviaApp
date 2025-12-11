@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: triviaapp-deployment
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: triviaapp-deployment
+  template:
+    metadata:
+      labels:
+        app: triviaapp-deployment
+    spec:
+      containers:
+        - name: triviaapp-deployment
+          image: 'danielmigchels/triviaapp:latest'
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - secretRef:
+                name: triviaapp-secret
