@@ -2,7 +2,7 @@
       
 A trivia application based on the Open Trivia Database API built with Angular and .NET 9, serving as both a functional project and a personal reference for common patterns and practices.
 
-(Add screenshot of final product here)
+<img style="width: 600px;" src="TriviaApp.Docs/demo.gif">
 
 ## How to Run
 
