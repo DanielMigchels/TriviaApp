@@ -23,7 +23,7 @@ App becomes available on port 8080 and should be reachable through HTTP. (http:/
 ### Helm Chart
 Installs the app on your Kubernetes cluster.
 ```bash
-helm install triviaapp .\\TriviaApp.Helm\\ --namespace triviaapp --create-namespace
+helm install triviaapp .\TriviaApp.Helm\ --namespace triviaapp --create-namespace
 ```
 App becomes available on port 32050 and should be reachable through HTTP. (http://localhost:32050)
 
