@@ -71,17 +71,3 @@ app.UseSpa(spa =>
 });
 
 app.Run();
-
-try
-{
-    app.Run();
-}
-catch (OperationCanceledException) { } // Regular shutdown
-catch (Exception ex)
-{
-    Log.Fatal(ex, "Host terminated unexpectedly");
-}
-finally
-{
-    Log.CloseAndFlush();
-}

@@ -24,9 +24,14 @@ public class OpenTriviaApiService(ILogger<OpenTriviaApiService> logger, IOpenTri
                 throw new Exception($"We could not find a quesiton in the response from OpenTriviaApi.");
             }
 
+            var questionType =
+                question.Type == "multiple" ? QuestionType.MultipleChoice :
+                question.Type == "boolean" ? QuestionType.TrueFalse :
+                default;
+
             return new GetQuestionApiResponseModel()
             {
-                Type = question.Type == "multiple" ? QuestionType.MultipleChoice : question.Type == "boolean" ? QuestionType.TrueFalse : default,
+                Type = questionType,
                 Question = WebUtility.HtmlDecode(question.Question).Replace('\"', '\''),
                 CorrectAnswer = WebUtility.HtmlDecode(question.CorrectAnswer).Replace('\"', '\''),
                 IncorrectAnswers = question.IncorrectAnswers.Select(x => WebUtility.HtmlDecode(x).Replace('\"', '\'')).ToList(),

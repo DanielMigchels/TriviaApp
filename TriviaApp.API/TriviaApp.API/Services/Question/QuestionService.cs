@@ -23,15 +23,28 @@ public class QuestionService(ILogger<QuestionService> logger, IQuestionApiServic
             AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10)
         });
 
-        var shuffledAnswers = question.Type == QuestionType.MultipleChoice ? 
-            question.IncorrectAnswers.Concat(new[] { question.CorrectAnswer }).OrderBy(_ => Guid.NewGuid()).ToList() : 
-            question.IncorrectAnswers.Concat(new[] { question.CorrectAnswer }).Reverse().ToList();
+        var answers = question.IncorrectAnswers
+            .Concat(new[] { question.CorrectAnswer })
+            .ToList();
+
+        if (question.Type == QuestionType.MultipleChoice)
+        {
+            // Fisher–Yates shuffle
+            var rng = Random.Shared;
+            for (int i = answers.Count - 1; i > 0; i--)
+            {
+                int j = rng.Next(i + 1);
+                (answers[i], answers[j]) = (answers[j], answers[i]);
+            }
+        }
+
+        answers.Reverse();
 
         return new GetQuestionResponseModel()
         {
             Id = questionId,
             Success = true,
-            Answers = shuffledAnswers,
+            Answers = answers,
             Category = question.Category,
             Difficulty = question.Difficulty,
             Question = question.Question,
