@@ -1,4 +1,6 @@
 # TriviaApp
+
+[![Build](https://github.com/DanielMigchels/TriviaApp/actions/workflows/dotnet-build.yml/badge.svg)](https://github.com/DanielMigchels/TriviaApp/actions/workflows/build.yml) [![Docker Hub](https://img.shields.io/docker/v/danielmigchels/triviaapp?label=docker%20hub&logo=docker)](https://hub.docker.com/r/danielmigchels/triviaapp)
       
 A trivia application based on the Open Trivia Database API built with Angular and .NET 9, serving as a personal reference for common patterns and practices.
 
