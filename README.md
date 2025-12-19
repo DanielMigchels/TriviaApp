@@ -9,15 +9,16 @@ A trivia application based on the Open Trivia Database API built with Angular an
 Instructions on how to run the application.
 
 ### Docker Compose
-Pulls image from public container registry, and runs it along with its dependencies on your docker instance.
+Compiles source code, builds docker image, and runs it along with its dependencies on your docker instance.
 ```bash
 docker-compose up
 ```
 
-Compiles source code, builds docker image, and runs it along with its dependencies on your docker instance.
+Pulls image from public container registry, and runs it along with its dependencies on your docker instance.
 ```bash
-docker-compose -f docker-compose.local.yml up
+docker-compose -f docker-compose.remote.yml up
 ```
+
 App becomes available on port 8080 and should be reachable through HTTP. (http://localhost:8080)
 
 ### Helm Chart

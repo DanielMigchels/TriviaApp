@@ -22,7 +22,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSpaStaticFiles(configuration =>
 {
-    configuration.RootPath = "wwwroot/TriviaApp.UI/browser/";
+    configuration.RootPath = "wwwroot/";
 });
 
 builder.Services.AddSwaggerGen(c =>
