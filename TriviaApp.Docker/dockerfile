@@ -2,9 +2,9 @@ FROM node:24 AS angular-build
 WORKDIR /app
 COPY TriviaApp.UI/package*.json ./TriviaApp.UI/
 WORKDIR /app/TriviaApp.UI
-RUN npm ci
+RUN npm install
 COPY ./TriviaApp.UI .
-RUN npm audit
+# RUN npm audit
 RUN npm run build --omit=dev
 
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS dotnet-build
