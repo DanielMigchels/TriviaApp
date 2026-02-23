@@ -1,9 +1,9 @@
-<div class="flex flex-col items-center gap-5">
+<div class="p-4 flex flex-col items-center gap-5">
 
   @if (question === null) {
-  <div class="w-96 h-64 bg-[url('/quizmaster.png')] bg-no-repeat bg-[position:90%_0%] bg-[length:200%_200%]">
+  <div class="w-60 h-40 md:w-96 md:h-64 bg-[url('/quizmaster.png')] bg-no-repeat bg-[position:90%_0%] bg-[length:200%_200%]">
   </div>
-  <div class="text-center text-wrap text-3xl">
+  <div class="text-center text-wrap text-xl md:text-3xl">
     <p>
       "{{loadingQuestionMessage}}"
     </p>
@@ -14,9 +14,9 @@
   }
 
   @if (question !== null && checkingAnswer === false && requestionResult === null) {
-  <div class="w-96 h-64 bg-[url('/quizmaster.png')] bg-no-repeat bg-[position:5%_100%] bg-[length:200%_200%]">
+  <div class="w-60 h-40 md:w-96 md:h-64 bg-[url('/quizmaster.png')] bg-no-repeat bg-[position:5%_100%] bg-[length:200%_200%]">
   </div>
-  <div class="text-center text-wrap text-3xl">
+  <div class="text-center text-wrap text-xl md:text-3xl">
     <p>
       "{{question.question}}"
     </p>
@@ -32,9 +32,9 @@
   }
 
   @if (question !== null && checkingAnswer === true && requestionResult === null) {
-  <div class="w-96 h-64 bg-[url('/quizmaster.png')] bg-no-repeat bg-[position:90%_0%] bg-[length:200%_200%]">
+  <div class="w-60 h-40 md:w-96 md:h-64 bg-[url('/quizmaster.png')] bg-no-repeat bg-[position:90%_0%] bg-[length:200%_200%]">
   </div>
-  <div class="text-center text-wrap text-3xl">
+  <div class="text-center text-wrap text-xl md:text-3xl">
     <p>
       "{{checkingQuestionMessage}}"
     </p>
@@ -47,19 +47,19 @@
   @if (requestionResult !== null) {
 
   @if (requestionResult.success && requestionResult.wasAnswerCorrect) {
-  <div class="w-96 h-64 bg-[url('/quizmaster.png')] bg-no-repeat bg-[position:5%_0%] bg-[length:200%_200%]">
+  <div class="w-60 h-40 md:w-96 md:h-64 bg-[url('/quizmaster.png')] bg-no-repeat bg-[position:5%_0%] bg-[length:200%_200%]">
   </div>
   }
   @if (requestionResult.success && !requestionResult.wasAnswerCorrect) {
-  <div class="w-96 h-64 bg-[url('/quizmaster.png')] bg-no-repeat bg-[position:90%_100%] bg-[length:200%_200%]">
+  <div class="w-60 h-40 md:w-96 md:h-64 bg-[url('/quizmaster.png')] bg-no-repeat bg-[position:90%_100%] bg-[length:200%_200%]">
   </div>
   }
   @if (!requestionResult.success) {
-  <div class="w-96 h-64 bg-[url('/quizmaster.png')] bg-no-repeat bg-[position:90%_100%] bg-[length:200%_200%]">
+  <div class="w-60 h-40 md:w-96 md:h-64 bg-[url('/quizmaster.png')] bg-no-repeat bg-[position:90%_100%] bg-[length:200%_200%]">
   </div>
   }
 
-  <div class="text-center text-wrap text-3xl">
+  <div class="text-center text-wrap text-xl md:text-3xl">
     @if (requestionResult.success && requestionResult.wasAnswerCorrect) {
     <p>
       "Correct!"
@@ -72,7 +72,7 @@
     }
     @if (!requestionResult.success) {
     <p>
-      "Seems like the jury doesn't know either. Anway, we carry on!"
+      "Seems like the jury doesn't know either. Anyway, we carry on!"
     </p>
     }
   </div>
